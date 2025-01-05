@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task 3</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #1e1e2f;
+      color: #f8f9fa;
+      display: block;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #ff6f61;
+      color: #ffff;
+    }
+    main {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    h2 {
+      color: #ff6f61;
+    }
+    .carousel, .quiz, .joke {
+      background-color: #2c2c3c;
+      padding: 60px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      max-height: 350px;
+    }
+    .quiz{
+        max-height: 350px;
+        overflow-y: auto;
+    }
+    .carousel img {
+      width: 100%;
+      border-radius: 8px;
+    }
+    .carousel button, .quiz button, .joke button {
+      background-color: #ff6f61;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px 0;
+      cursor: pointer;
+      border-radius: 4px;
+      display: block;
+      width: 100%;
+    }
+    .carousel button:hover, .quiz button:hover, .joke button:hover {
+      background-color: #ff3b2f;
+    }
+    footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #333;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Interactive and Responsive Web Page</h1>
+</header>
+
+<main>
+  <section class="carousel">
+    <h2>Image Carousel</h2>
+    <img id="carouselImage" src="Images/image 1.jpeg" alt="Carousel Image">
+    <button onclick="prevImage()">Prev</button>
+    <button onclick="nextImage()">Next</button>
+  </section>
+
+  <section class="quiz">
+    <h2>Interactive Quiz</h2>
+    <p id="quizQuestion1">1.Which programming language is used for web development?</p>
+    <button onclick="checkAnswer('JavaScript')">JavaScript</button>
+    <button onclick="checkAnswer('Python')">Python</button>
+    <button onclick="checkAnswer('Java')">Java</button>
+    <button onclick="checkAnswer('C++')">C++</button>
+    <p id="quizResult1"></p>
+    <p id="quizQuestion2">2. Which is the primary function of HTML in web development?</p>
+    <button onclick="checkAnswer('To add interactivity to a website')">To add interactivity to a website</button>
+    <button onclick="checkAnswer('To style a website')">To style a website </button>
+    <button onclick="checkAnswer('To structure and organze content on a website')">To structure and organze content on a website</button>
+    <button onclick="checkAnswer('To create animations and special effects')">To create animations and special effects</button>
+    <p id="quizResult2"></p>
+  </section>
+
+  <section class="joke">
+    <h2>Get a Random Joke</h2>
+    <button onclick="fetchJoke()">Get Joke</button>
+    <p id="jokeResult"></p>
+  </section>
+</main>
+
+<footer>
+  <p>Copyright ©️ by Gokul</p>
+</footer>
+
+<script>
+  const images = [
+    "Images/image 1.jpeg",
+    "Images/image 2.jpeg",
+    "Images/image 3.jpeg"
+  ];
+  let currentIndex = 0;
+
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    document.getElementById('carouselImage').src = images[currentIndex];
+  }
+
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    document.getElementById('carouselImage').src = images[currentIndex];
+  }
+
+  function checkAnswer(answer) {
+    const result1 = document.getElementById('quizResult1');
+    if (answer === 'JavaScript') {
+      result1.textContent = "Correct! JavaScript is widely used for web development.";
+      result1.style.color = "#28a745";
+    } else {
+      result1.textContent = "Incorrect! Try again.";
+      result1.style.color = "#ff3b2f";
+    }
+    const result2 = document.getElementById('quizResult2');
+    if (answer === 'To structure and organze content on a website') {
+      result2.textContent = "Correct!";
+      result2.style.color = "#28a745";
+    } else {
+      result2.textContent = "Incorrect! Try again.";
+      result2.style.color = "#ff3b2f";
+    }
+   }
+
+  async function fetchJoke() {
+    const jokeResult = document.getElementById('jokeResult');
+    try {
+      const response = await fetch('https://official-joke-api.appspot.com/random_joke');
+      const data = await response.json();
+      jokeResult.textContent = `${data.setup} - ${data.punchline}`;
+    } catch (error) {
+      jokeResult.textContent = "Failed to fetch joke.";
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks 2</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #1e1e2f; /* Dark background for contrast */
+            color: #f4f4f9; /* Light text for readability */
+        }
+
+        header {
+            background: #4a4e69; /* Muted purple */
+            color: white;
+            padding: 15px 15px;
+            text-align: center;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .content {
+            padding: 40px; /* Increased padding for prominence */
+            background: #22223b; /* Darker section background */
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        footer {
+            background: #4a4e69;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form label, form input, form textarea, form button {
+            margin-bottom: 15px;
+        }
+
+        form input, form textarea {
+            padding: 15px;
+            border: 1px solid #9a8c98;
+            border-radius: 5px;
+            font-size: 16px;
+            background: #2a2a3b;
+            color: white;
+        }
+
+        form button {
+            background: #c9ada7; /* Soft pink */
+            color: #22223b;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        form button:hover {
+            background: #d7a7a7; /* Lighter pink */
+            color: #22223b;
+        }
+
+        /* To-Do List Styles */
+        .todo-container ul {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+        }
+
+        .todo-container li {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            background: #2a2a3b;
+            border-radius: 5px;
+        }
+
+        .todo-container input[type="text"] {
+            padding: 10px;
+            border: 1px solid #9a8c98;
+            border-radius: 5px;
+            background: #2a2a3b;
+            color: white;
+            width: 80%;
+        }
+
+        .todo-container button {
+            background: #c9ada7;
+            color: #22223b;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .todo-container button:hover {
+            background: #d7a7a7; /* Lighter pink */
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            main {
+                grid-template-columns: 1fr; /* Stack sections on smaller screens */
+                gap: 10px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>To-Do List</h1>
+    </header>
+
+    <main>
+        <!-- Login Content -->
+        <section class="content">
+            <h2>Contact Us</h2>
+            <form id="contactForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" placeholder="Your Name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="Your Email" required>
+                <label for="message">Message:</label>
+                <textarea id="message" placeholder="Your Message" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+        <!-- To-Do List -->
+        <aside class="content">
+            <h2>To-Do List</h2>
+            <div class="todo-container">
+                <input type="text" id="taskInput" placeholder="Enter a task">
+                <button id="addTaskButton">Add Task</button>
+                <ul id="taskList"></ul>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <p>Copyright © Gokul</p>
+    </footer>
+
+    <script>
+        // Form Validation
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const message = document.getElementById("message").value.trim();
+
+            if (!name || !email || !message) {
+                alert("All fields are required.");
+                event.preventDefault();
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert("Please enter a valid email address.");
+                event.preventDefault();
+            }
+        });
+
+        // To-Do List
+        const taskInput = document.getElementById("taskInput");
+        const addTaskButton = document.getElementById("addTaskButton");
+        const taskList = document.getElementById("taskList");
+
+        addTaskButton.addEventListener("click", function() {
+            const taskText = taskInput.value.trim();
+            if (taskText === "") {
+                alert("Please enter a task.");
+                return;
+            }
+
+            const li = document.createElement("li");
+            li.textContent = taskText;
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", function() {
+                li.remove();
+            });
+
+            li.appendChild(deleteButton);
+            taskList.appendChild(li);
+
+            taskInput.value = "";
+        });
+    </script>
+</body>
+</html>
